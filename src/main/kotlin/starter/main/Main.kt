@@ -1,4 +1,4 @@
-package org.example
+package starter.main
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
