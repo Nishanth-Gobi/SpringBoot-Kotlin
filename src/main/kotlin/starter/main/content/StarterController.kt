@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class StarterController {
+class StarterController(private val starterService: StarterService) {
 
     @GetMapping("/")
     fun sayHello(): String {
-        return "hello"
+        return starterService.getMessage()
     }
 }
