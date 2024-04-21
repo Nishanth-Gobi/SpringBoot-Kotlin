@@ -1,21 +1,26 @@
 package starter.main.content
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.getForEntity
-import org.springframework.http.HttpStatus
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-class StarterControllerTest(@Autowired val testRestTemplate: TestRestTemplate) {
+@SpringBootTest
+@AutoConfigureMockMvc
+class StarterControllerTest(@Autowired val mockMvc: MockMvc) {
 //    Integration test
+
     @Test
     fun shouldReturnHello() {
-        val response = testRestTemplate.getForEntity<String>("/")
 
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals("hello", response.body)
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/"))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(content().string("hello"))
     }
 }
